@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "rootDir": ".src",
+    "paths": { "@plane/*": ["./src/*"], "@plane": ["./src/index.ts"] },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

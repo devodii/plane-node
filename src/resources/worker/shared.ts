@@ -1,74 +1,113 @@
 type Hash = string;
 
-interface BaseWorker {
+interface Base {
   id: string;
   current: boolean;
   starts: Date;
   ends: Date;
 }
 
-export interface Role extends BaseWorker {
+/** Role */
+export interface Role extends Base {
   title: string;
   responsibilities: string;
   level: number;
 }
 
-export interface Reporting extends BaseWorker {
+/** Reporting */
+export interface Reporting extends Base {
   department: string;
   manager: Hash;
 }
 
+/** Location */
+export type LocationType = "office" | "home" | unknown;
+
+export interface LocationAddress {
+  line1: string;
+  line2: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
+}
+
 export interface Location {
   id: string;
-  type: "office" | "home" | unknown;
+  type: LocationType;
   name: string;
-  address: {
-    line1: string;
-    line2: string;
-    city: string;
-    state: string;
-    postal_code: string;
-    country: string;
-  };
+  address: LocationAddress;
   timestamp: string;
 }
 
-export interface Classification extends BaseWorker {
-  status: "full-time" | "part-time" | "temporary" | "seasonal";
-  type: "salaried" | "hourly" | "commission-only";
-  term: "at-will" | "fixed" | "indefinite";
+/** Classification */
+
+export type ClassificationStatus =
+  | "full-time"
+  | "part-time"
+  | "temporary"
+  | "seasonal";
+
+export type ClassificationType = "salaried" | "hourly" | "commission-only";
+
+export type ClassificationTerm = "at-will" | "fixed" | "indefinite";
+
+export interface Classification extends Base {
+  status: ClassificationStatus;
+  type: ClassificationType;
+  term: ClassificationTerm;
   exempt: boolean;
   overtime: string;
 }
 
-export interface Compensation extends BaseWorker {
-  status: "pending" | "accepted" | "cancelled";
+/** Compensation */
+
+export type CompensationStatus = "pending" | "accepted" | "cancelled";
+
+export type CompensationUnit =
+  | "hour"
+  | "day"
+  | "week"
+  | "month"
+  | "year"
+  | "other";
+
+export type CompensationFrequency =
+  | "weekly"
+  | "biweekly"
+  | "twice_monthly"
+  | "monthly"
+  | "thirteen_monthly"
+  | "fourteen_mounthly";
+
+export interface Compensation extends Base {
+  status: CompensationStatus;
   amount: string;
   currency: string;
-  unit: "hour" | "day" | "week" | "month" | "year" | "other";
+  unit: CompensationUnit;
   unit_description: string;
-  frequency:
-    | "weekly"
-    | "biweekly"
-    | "twice_monthly"
-    | "monthly"
-    | "thirteen_monthly"
-    | "fourteen_mounthly";
+  frequency: CompensationFrequency;
   stock: string;
   other: string;
   reason: string;
   worker: Worker;
 }
 
-export interface Employment extends BaseWorker {
-  status:
-    | "pending"
-    | "active"
-    | "terminated"
-    | "cancelled"
-    | "paused"
-    | undefined;
-  type: "employee" | "contractor" | "vendor";
+/** Employment */
+
+export type EmploymentStatus =
+  | "pending"
+  | "active"
+  | "terminated"
+  | "cancelled"
+  | "paused"
+  | undefined;
+
+export type EmploymentType = "employee" | "contractor" | "vendor";
+
+export interface Employment extends Base {
+  status: EmploymentStatus;
+  type: EmploymentType;
   primary: boolean;
   employer: Hash;
   classification: Classification;
@@ -82,5 +121,5 @@ export interface Employment extends BaseWorker {
   };
 }
 
-// todo
-export interface Worker extends BaseWorker {}
+/** Worker */
+export interface Worker extends Base {}
