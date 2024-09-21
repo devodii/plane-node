@@ -122,4 +122,21 @@ export interface Employment extends Base {
 }
 
 /** Worker */
-export interface Worker extends Base {}
+export interface Worker extends Base {
+  id: string;
+  type: Employment;
+  number: string | null;
+  name: {
+    first: string;
+    last: string;
+    business: string;
+  };
+  email: string;
+  title: string;
+}
+
+export type ListWorkersParameters = Partial<{
+  limit: string;
+  starting_after: string;
+  ending_before: string;
+}>;
